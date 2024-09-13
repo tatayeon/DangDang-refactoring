@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3307/DangDang  # MySQL?? MariaDB? ??
+    username: root
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver  # MariaDB ????? ??
+  mvc:
+    view:
+      prefix: /WEB-INF/
+      suffix: .jsp
+  web:
+    resources:
+      static-locations: classpath:/static/
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
