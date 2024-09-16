@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -18,6 +19,20 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute LoginDTO requestDTO, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        User loginUser = userService.login(requestDTO);
+
+        if (loginUser != null) {
+            session.setAttribute("logIn", loginUser); //세션에 로그인정보 저장
+            return "redirect:/";
+        } else {
+            redirectAttributes.addFlashAttribute("In", false);
+            return "redirect:/";
+        }
+    }
+
 
     @GetMapping("/register")
     public String showRegister(){
@@ -31,20 +46,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute LoginDTO requestDTO, Model model, HttpSession session) {
-        User loginUser = userService.login(requestDTO);
 
-        if (loginUser != null) {
-            session.setAttribute("logIn", loginUser); //세션에 로그인정보 저장
-            model.addAttribute("In", true);
-            model.addAttribute("logIn", loginUser);
-            return "redirect:/";
-        }else {
-            model.addAttribute("In", false);
-            return "redirect:/";
-        }
-    }
 
 
 

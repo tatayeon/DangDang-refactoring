@@ -25,8 +25,6 @@ public class HomeController {
         String fileName = (String) session.getAttribute("fileName");
         model.addAttribute("re", re);
         model.addAttribute("fileName", fileName);
-        model.addAttribute("In", false);
-
 
         if (logIn != null) {
             model.addAttribute("In", true);
@@ -36,12 +34,13 @@ public class HomeController {
                 Gson gson = new Gson();
                 Type type = new TypeToken<ArrayList<Result>>(){}.getType();
                 ArrayList<Result> list = gson.fromJson(jsonStr, type);
-                System.out.println("list2="+ list);
+                System.out.println("list2=" + list);
                 model.addAttribute("list", list);
             }
             return "index";
         }
-
+        model.addAttribute("In", false); // 로그인하지 않은 경우
         return "index";
     }
+
 }
