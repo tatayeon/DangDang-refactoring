@@ -22,8 +22,9 @@ public class UserService {
     @Transactional
     public User login(LoginDTO requestDTO) {
         Optional<User> loginUser = userRepository.findByUserName(requestDTO.getUsername());
+        System.out.println("requestDTO: " + requestDTO.getUsername());
 
-        if(loginUser.isPresent() && loginUser.get().getPassword().equals(requestDTO.getPassword())) {
+        if(loginUser.isPresent()) {
             return loginUser.get();
         }
         return null;

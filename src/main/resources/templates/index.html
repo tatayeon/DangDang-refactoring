@@ -58,9 +58,9 @@
 <body>
 
 <!-- 로그인 여부에 따른 분기 -->
-<div th:if="${In}">
+<div th:if="${session.In}">
     <div class="welcome-message">
-        <h1 class="fs-1" th:text="${logIn.nickname} + '님의 방문을 환영합니다!'"></h1>
+        <h1 class="fs-1" th:text="${user.nickName} + '님의 방문을 환영합니다!'"></h1>
     </div>
 
     <div class="container text-center">
@@ -87,7 +87,7 @@
 </div>
 
 <!-- 로그인하지 않은 경우 -->
-<div th:if="${!In}" class="login-form">
+<div th:unless="${session.In}" class="login-form">
     <form action="/user/login" method="post">
         <div class="row justify-content-center" style="margin-bottom: 10px;">
             <div class="col-sm-3 text-center">

@@ -20,14 +20,22 @@ import java.util.ArrayList;
 public class HomeController {
     @GetMapping("/")
     public String showIndex(Model model, HttpSession session) throws JsonProcessingException {
-        User logIn = (User) session.getAttribute("logIn");
+        User logIn = new User();
+        if(model.getAttribute("user") != null){
+            logIn = (User) session.getAttribute("logIn");
+
+        }
+        if(session.getAttribute("In") != null){
+            session.setAttribute("In", true);
+        }
+        model.addAttribute("user", logIn);
+        System.out.println("User: " + logIn.getNickName());
         String re = (String) session.getAttribute("re");
         String fileName = (String) session.getAttribute("fileName");
         model.addAttribute("re", re);
         model.addAttribute("fileName", fileName);
 
         if (logIn != null) {
-            model.addAttribute("In", true);
             System.out.println("list" + session.getAttribute("re"));
             if (session.getAttribute("re") != null) {
                 String jsonStr = (String) session.getAttribute("re");
