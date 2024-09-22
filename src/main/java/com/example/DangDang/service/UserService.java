@@ -19,16 +19,28 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Transactional
-    public User login(LoginDTO requestDTO) {
-        Optional<User> loginUser = userRepository.findByUserName(requestDTO.getUsername());
-        System.out.println("requestDTO: " + requestDTO.getUsername());
-
-        if(loginUser.isPresent()) {
-            return loginUser.get();
+    public class UserNotFoundException extends RuntimeException {
+        public UserNotFoundException(String message) {
+            super(message);
         }
-        return null;
     }
+
+    @Transactional
+    public User login(String username, String password) {
+        Optional<User> loginUser = userRepository.findByUserName(username);
+        System.out.println("username : " + username + ", password : " + password);
+
+        if (loginUser.isPresent()) {
+            if (loginUser.get().getPassword().equals(password)) {
+                return loginUser.get();
+            } else {
+                throw new IllegalArgumentException("Incorrect password");
+            }
+        } else {
+            throw new UserNotFoundException("User not found with username: " + username);
+        }
+    }
+
 
     // Custom exception for user already exists
     public class UserAlreadyExistsException extends RuntimeException {
