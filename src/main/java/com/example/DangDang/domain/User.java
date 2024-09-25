@@ -1,10 +1,11 @@
 package com.example.DangDang.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
 
     private String userName;
@@ -20,6 +22,9 @@ public class User {
     private String password;
 
     private String nickName;
+
+    @OneToMany(mappedBy = "post_id")
+    private List<Post> posts = new ArrayList<>();
 
     public User(String userName, String password, String nickName) {
         this.userName = userName;
