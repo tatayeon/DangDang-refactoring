@@ -40,6 +40,8 @@ dependencies {
 	compileOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'  // 제공되는 의존성
 	implementation 'jakarta.el:jakarta.el-api:5.0.1'
 	implementation 'com.google.code.gson:gson:2.10.1'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 
 }
 

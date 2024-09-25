@@ -22,14 +22,15 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         System.out.println("username: " + username);
-        User loginUser = userService.login(username, password);
+        String result = userService.login(username, password);
 
-        System.out.println("loginUser controlloer: " + loginUser.getUserName());
+        System.out.println("loginUser controlloer: " + result);
 
-        if (loginUser != null) {
-            model.addAttribute("user", loginUser);
+        if (result == "succes") {
+            session.setAttribute("username", username);
+            model.addAttribute("user", result);
             session.setAttribute("In", true);
-            System.out.println("첫번째 UserController" + loginUser.getNickName());
+            System.out.println("첫번째 UserController" + result);
             return "redirect:/";
         } else {
             model.addAttribute("user", null);

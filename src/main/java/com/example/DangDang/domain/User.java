@@ -23,7 +23,7 @@ public class User {
 
     private String nickName;
 
-    @OneToMany(mappedBy = "post_id")
+    @OneToMany(mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
     public User(String userName, String password, String nickName) {
