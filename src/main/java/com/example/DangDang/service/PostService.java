@@ -2,8 +2,10 @@ package com.example.DangDang.service;
 
 import com.example.DangDang.DTO.PostAllDTO;
 import com.example.DangDang.DTO.ShowDetailDTO;
+import com.example.DangDang.domain.Comment;
 import com.example.DangDang.domain.Post;
 import com.example.DangDang.domain.User;
+import com.example.DangDang.repository.CommentRepository;
 import com.example.DangDang.repository.PostRepository;
 import com.example.DangDang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +17,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
+    @Transactional
     public String createPost(String title, String content, String username) {
         Optional<User> user = userRepository.findByUserName(username);
 
@@ -39,6 +43,7 @@ public class PostService {
 
     }
 
+    @Transactional
     public List<PostAllDTO> showAllPost(String username) {
         List<Post> all = postRepository.findAll();
         List<PostAllDTO> postAllDTOList = new ArrayList<>();  // DTO 리스트 생성
@@ -56,13 +61,16 @@ public class PostService {
         return postAllDTOList;  // 리스트 반환
     }
 
+    @Transactional
     public ShowDetailDTO showDetailPost(Long id, String username) {
         Optional<Post> post = postRepository.findById(id);
+
         if (post.isPresent()) {
             ShowDetailDTO showDetailDTO = ShowDetailDTO.builder()
                     .auth(username)
                     .title(post.get().getTitle())
                     .content(post.get().getContent())
+                    .postId(id)
                     .build();
 
             return showDetailDTO;

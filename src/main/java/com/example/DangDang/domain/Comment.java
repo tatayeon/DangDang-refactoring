@@ -6,36 +6,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "comment_id")
     private long id;
 
-    private String title;
-
-    private String content;
+    private String commentContent;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    private Post post;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
-
     @Builder
-    public Post(String title, String content, User user) {
-        this.title = title;
-        this.content = content;
+    public Comment(String commentContent, Post post, User user) {
+        this.commentContent = commentContent;
+        this.post = post;
         this.user = user;
     }
 
@@ -43,7 +39,10 @@ public class Post {
         this.user = user.orElse(null);
     }
 
-    public Post orElse(Object o) {
-        return null;
+    public void setPost(Optional<Post> post) {
+        this.post = post.orElse(null);
     }
+
+
+
 }

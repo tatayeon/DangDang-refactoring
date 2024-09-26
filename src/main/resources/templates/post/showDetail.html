@@ -25,35 +25,33 @@
 <h3 style="text-align:center;" class="fs-3 fs-1"> - <span th:text="${showDetailDTO.title}">제목</span> -  [작성자 : <span th:text="${showDetailDTO.auth}">작성자</span>]  </h3>
 <h4 style="text-align:center;" class="fs-5 fs-1">글 내용 : <span th:text="${showDetailDTO.content}">내용</span></h4>
 
-<!--<div class="row justify-content-center">-->
-<!--    <div style="text-align:center;" class="fs-4 fs-1">-->
-<!--        <div> <span>댓글 달기</span></div>-->
-<!--        <div th:each="b : ${replyList}">-->
-<!--            <div class="row justify-content-center">-->
-<!--                <div class="col-13">-->
-<!--                    <div>(<span th:text="${b.writerId}">작성자ID</span>)님 || <span th:text="${b.content}">댓글 내용</span> / <span th:text="${b.entryDate}">작성일</span></div>-->
-<!--                    <p>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<form th:action="@{/board/reply/{id}(id=${boardDTO.id})}" method="POST">-->
-<!--    <div class="row justify-content-center">-->
-<!--        <div class="col-3">-->
-<!--            <input type="text" name="content" class="form-control" placeholder="댓글을 입력하세요">-->
-<!--            <input type="submit" value="댓글" class="btn btn-outline-info">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</form>-->
-
+<div class="row justify-content-center">
+    <div style="text-align:center;" class="fs-4 fs-1">
+        <div> <span>댓글 달기</span></div>
+        <div th:each="b : ${comments}">
+            <div class="row justify-content-center">
+                <div class="col-13">
+                    <div>(<span th:text="${b.username}">작성자ID</span>)님 || <span th:text="${b.comment}">댓글 내용</span></div>
+                    <p>------------------------------------</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form th:action="@{/comment/createComment/{postId}(postId=${showDetailDTO.getPostId()})}" method="POST">
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <input type="text" name="commentContent" class="form-control" placeholder="댓글을 입력하세요">
+            <input type="submit" value="댓글" class="btn btn-outline-info">
+        </div>
+    </div>
+</form>
 <div class="col-8 d-flex justify-content-center">
     <a href="/" class="btn btn-outline-info m-1">첫화면 가기</a>
-    <div th:if="${In}">
-        <a th:href="@{/board/delete/{id}(id=${boardDTO.id})}" class="btn btn-outline-info m-1">삭제하기</a>
-    </div>
-    <a href="/board/showAll" class="btn btn-outline-info m-1">전체목록</a>
+<!--    <div th:if="${In}">-->
+<!--        <a th:href="@{/board/delete/{id}(id=${boardDTO.id})}" class="btn btn-outline-info m-1">삭제하기</a>-->
+<!--    </div>-->
+    <a href="/post/showAll" class="btn btn-outline-info m-1">전체목록</a>
 </div>
 
 </body>
